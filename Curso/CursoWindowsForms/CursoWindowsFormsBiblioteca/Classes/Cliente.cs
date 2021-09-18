@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace CursoWindowsFormsBiblioteca.Classes
 {
@@ -69,7 +70,7 @@ namespace CursoWindowsFormsBiblioteca.Classes
 
             [Required(ErrorMessage = "Renda Familiar é obrigatório.")]
             [Range(0, double.MaxValue, ErrorMessage = "Renda Familiar deve ser um valor positivo.")]
-            public double RendaFamiliar { get; set; }
+            public Double RendaFamiliar { get; set; }
 
             public void ValidaClasse()
             {
@@ -90,12 +91,12 @@ namespace CursoWindowsFormsBiblioteca.Classes
 
             public void ValidaComplemento()
             {
-                if(this.NomePai == this.NomeMae)
+                if (this.NomePai == this.NomeMae)
                 {
                     throw new Exception("Nome do Pai e da Mãe não podem ser iguais.");
                 }
-                
-                if(this.NaoTemPai == false)
+
+                if (this.NaoTemPai == false)
                 {
                     if (this.NomePai == "")
                     {
@@ -104,17 +105,29 @@ namespace CursoWindowsFormsBiblioteca.Classes
                 }
 
                 bool validaCPF = Cls_Uteis.Valida(this.Cpf);
-                if(validaCPF == false)
+                if (validaCPF == false)
                 {
                     throw new Exception("CPF Inválido");
                 }
 
             }
 
-            public class List
-            {
-                public List<Unit> ListUnit { get; set; }
-            }
+
+        }
+
+        public class List
+        {
+            public List<Unit> ListUnit { get; set; }
+        }
+
+        public static Unit DesSerializedClassUnit(string vJson)
+        {
+            return JsonConvert.DeserializeObject<Unit>(vJson);
+        }
+
+        public static string SerializedClassUnit(Unit unit)
+        {
+            return JsonConvert.SerializeObject(unit);
         }
     }
 }

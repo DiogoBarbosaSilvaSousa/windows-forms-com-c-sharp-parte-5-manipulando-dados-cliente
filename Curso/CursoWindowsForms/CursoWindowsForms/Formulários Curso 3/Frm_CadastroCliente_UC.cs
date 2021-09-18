@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CursoWindowsFormsBiblioteca;
 using CursoWindowsFormsBiblioteca.Classes;
+using CursoWindowsFormsBiblioteca.Databases;
 using Microsoft.VisualBasic;
 
 namespace CursoWindowsForms
@@ -127,7 +128,29 @@ namespace CursoWindowsForms
                 C.ValidaClasse();
                 C.ValidaComplemento();
 
-                MessageBox.Show("Classe foi inicializada sem erros", "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string clienteJson = Cliente.SerializedClassUnit(C);
+
+                Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                if (F.status)
+                {
+                    F.Incluir(C.Id, clienteJson);
+
+                    if (F.status)
+                    {
+                        MessageBox.Show("OK: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                   
+                }
+                else
+                {
+                    MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+               
             }
             catch (ValidationException Ex)
             {
@@ -212,9 +235,9 @@ namespace CursoWindowsForms
             C.Telefone = Txt_Telefone.Text;
             C.Profissao = Txt_Profissao.Text;
 
-            if (Information.IsNumeric(Txt_RendaFamiliar))
+            if (Information.IsNumeric(Txt_RendaFamiliar.Text))
             {
-                Double vRenda = Convert.ToDouble(Txt_RendaFamiliar);
+                Double vRenda = Convert.ToDouble(Txt_RendaFamiliar.Text);
 
                 if (vRenda < 0)
                 {
