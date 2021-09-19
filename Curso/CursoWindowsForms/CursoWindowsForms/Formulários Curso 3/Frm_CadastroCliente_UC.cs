@@ -78,6 +78,8 @@ namespace CursoWindowsForms
             Tls_Principal.Items[3].ToolTipText = "Apaga o cliente selecionado";
             Tls_Principal.Items[4].ToolTipText = "Limpa dados da tela de entrada de dados";
 
+            Btn_Busca.Text = "Buscar";
+
         }
 
         private void LimparFormulario()
@@ -458,6 +460,50 @@ namespace CursoWindowsForms
 
 
 
+        }
+
+        private void Btn_Busca_Click(object sender, EventArgs e)
+        {
+            Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+            if (F.status)
+            {
+                List<string> List = new List<string>();
+                List = F.BuscarTodos();
+                if (F.status)
+                {
+                    List<List<string>> ListaBusca = new List<List<string>>();
+                    for(int i = 0; i <= List.Count - 1; i++)
+                    {
+                        Cliente.Unit C = Cliente.DesSerializedClassUnit(List[i]);
+                        ListaBusca.Add(new List<string> { C.Id, C.Nome });
+                    }
+
+                    Frm_Busca FForm = new Frm_Busca(ListaBusca);
+                    FForm.ShowDialog();
+                    if(FForm.DialogResult == DialogResult.OK)
+                    {
+                        var idSelect = FForm.idSelect;
+                        string clienteJson = F.Buscar(idSelect);
+                        Cliente.Unit C = new Cliente.Unit();
+                        C = Cliente.DesSerializedClassUnit(clienteJson);
+                        EscreveFormulario(C);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+              
+
+            }
+            else
+            {
+                MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+           
+           
         }
     }
 }
