@@ -143,14 +143,14 @@ namespace CursoWindowsForms
                     {
                         MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                   
+
                 }
                 else
                 {
                     MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-               
+
             }
             catch (ValidationException Ex)
             {
@@ -165,17 +165,125 @@ namespace CursoWindowsForms
 
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Efetuei um clique sobre o botão abrir.");
+            // MessageBox.Show("Efetuei um clique sobre o botão abrir.");
+            if (Txt_Codigo.Text == "")
+            {
+                MessageBox.Show("Código do Cliente vazio.", "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                if (F.status)
+                {
+                    string clienteJson = F.Buscar(Txt_Codigo.Text);
+                    //MessageBox.Show(clienteJson);
+                    Cliente.Unit C = new Cliente.Unit();
+                    C = Cliente.DesSerializedClassUnit(clienteJson);
+                    EscreveFormulario(C);
+                }
+                else
+                {
+                    MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Efetuei um clique sobre o botão salvar");
+            //MessageBox.Show("Efetuei um clique sobre o botão salvar");
+            if (Txt_Codigo.Text == "")
+            {
+                MessageBox.Show("Código do Cliente vazio.", "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                try
+                {
+
+                    Cliente.Unit C = new Cliente.Unit();
+                    C = LeituraFormulario();
+                    C.ValidaClasse();
+                    C.ValidaComplemento();
+
+                    string clienteJson = Cliente.SerializedClassUnit(C);
+
+                    Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                    if (F.status)
+                    {
+                        F.Alterar(C.Id, clienteJson);
+
+                        if (F.status)
+                        {
+                            MessageBox.Show("OK: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+                }
+                catch (ValidationException Ex)
+                {
+                    MessageBox.Show(Ex.Message, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show(Ex.Message, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
         }
 
         private void ApagaToolStripButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Efetuei um clique sobre o botão excluir");
+            // MessageBox.Show("Efetuei um clique sobre o botão excluir");
+
+            if (Txt_Codigo.Text == "")
+            {
+                MessageBox.Show("Código do Cliente vazio.", "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                if (F.status)
+                {
+                    string clienteJson = F.Buscar(Txt_Codigo.Text);
+                    //MessageBox.Show(clienteJson);
+                    Cliente.Unit C = new Cliente.Unit();
+                    C = Cliente.DesSerializedClassUnit(clienteJson);
+                    EscreveFormulario(C);
+
+                    Frm_Questao Db = new Frm_Questao("ExcluirBarra", "Você quer excluir o cliente ?");
+                    Db.ShowDialog();
+                    if (Db.DialogResult == DialogResult.Yes)
+                    {
+                        F.Apagar(Txt_Codigo.Text);
+
+                        if (F.status)
+                        {
+                            MessageBox.Show("OK: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LimparFormulario();
+                        }
+                        else
+                        {
+                            MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+
+                    //MessageBox.Show(clienteJson);
+                }
+                else
+                {
+                    MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void LimparToolStripButton_Click(object sender, EventArgs e)
@@ -252,6 +360,70 @@ namespace CursoWindowsForms
             return C;
         }
 
+        void EscreveFormulario(Cliente.Unit C)
+        {
+
+            Txt_Codigo.Text = C.Id;
+            Txt_NomeCliente.Text = C.Nome;
+            Txt_NomeMae.Text = C.NomeMae;
+
+            if (C.NaoTemPai == true)
+            {
+                Chk_TemPai.Checked = true;
+                Txt_NomePai.Text = "";
+            }
+            else
+            {
+                Chk_TemPai.Checked = false;
+                Txt_NomePai.Text = C.NomePai;
+            }
+
+            if (C.Genero == 0)
+            {
+                Rdb_Masculino.Checked = true;
+            }
+
+            if (C.Genero == 1)
+            {
+                Rdb_Feminino.Checked = true;
+            }
+
+            if (C.Genero == 2)
+            {
+                Rdb_Indefinido.Checked = true;
+            }
+
+            Txt_CPF.Text = C.Cpf;
+            Txt_CEP.Text = C.Cep;
+            Txt_Logradouro.Text = C.Logradouro;
+            Txt_Complemento.Text = C.Complemento;
+            Txt_Cidade.Text = C.Cidade;
+            Txt_Bairro.Text = C.Bairro;
+
+            if (C.Estado == "")
+            {
+                Cmb_Estados.SelectedIndex = -1;
+            }
+            else
+            {
+                for (int i = 0; i <= Cmb_Estados.Items.Count - 1; i++)
+                {
+                    if (C.Estado == Cmb_Estados.Items[i].ToString())
+                    {
+                        Cmb_Estados.SelectedIndex = i;
+                    }
+                }
+
+            }
+
+            Txt_Telefone.Text = C.Telefone;
+            Txt_Profissao.Text = C.Profissao;
+
+            Txt_RendaFamiliar.Text = C.RendaFamiliar.ToString();
+
+
+        }
+
         private void Txt_CEP_Leave(object sender, EventArgs e)
         {
             string vCep = Txt_CEP.Text;
@@ -274,7 +446,7 @@ namespace CursoWindowsForms
                         for (int i = 0; i <= Cmb_Estados.Items.Count - 1; i++)
                         {
                             var vPos = Strings.InStr(Cmb_Estados.Items[i].ToString(), "(" + CEP.uf + ")");
-                            if(vPos > 0)
+                            if (vPos > 0)
                             {
                                 Cmb_Estados.SelectedIndex = i;
                                 break;
