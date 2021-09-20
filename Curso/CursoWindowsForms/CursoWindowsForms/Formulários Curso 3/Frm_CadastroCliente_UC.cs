@@ -129,28 +129,29 @@ namespace CursoWindowsForms
                 C = LeituraFormulario();
                 C.ValidaClasse();
                 C.ValidaComplemento();
+                C.IncluirFichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                MessageBox.Show("OK: Indentificador incluído com sucesso.", "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //string clienteJson = Cliente.SerializedClassUnit(C);
 
-                string clienteJson = Cliente.SerializedClassUnit(C);
+                //Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                //if (F.status)
+                //{
+                //    F.Incluir(C.Id, clienteJson);
 
-                Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
-                if (F.status)
-                {
-                    F.Incluir(C.Id, clienteJson);
+                //    if (F.status)
+                //    {
+                //        MessageBox.Show("OK: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //    }
+                //    else
+                //    {
+                //        MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //    }
 
-                    if (F.status)
-                    {
-                        MessageBox.Show("OK: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-
-                }
-                else
-                {
-                    MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                //}
+                //else
+                //{
+                //    MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //}
 
 
             }
@@ -174,19 +175,41 @@ namespace CursoWindowsForms
             }
             else
             {
-                Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
-                if (F.status)
+                try
                 {
-                    string clienteJson = F.Buscar(Txt_Codigo.Text);
-                    //MessageBox.Show(clienteJson);
                     Cliente.Unit C = new Cliente.Unit();
-                    C = Cliente.DesSerializedClassUnit(clienteJson);
-                    EscreveFormulario(C);
+                    C = C.BuscarFichario(Txt_Codigo.Text, "C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                    if (C == null)
+                    {
+                        MessageBox.Show("Idenficador não encontrado.", "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        EscreveFormulario(C);
+                    }
+
+
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
+
+
+                //Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                //if (F.status)
+                //{
+                //    string clienteJson = F.Buscar(Txt_Codigo.Text);
+                //    //MessageBox.Show(clienteJson);
+                //    Cliente.Unit C = new Cliente.Unit();
+                //    C = Cliente.DesSerializedClassUnit(clienteJson);
+                //    EscreveFormulario(C);
+                //}
+                //else
+                //{
+                //    MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //}
             }
         }
 
@@ -206,28 +229,30 @@ namespace CursoWindowsForms
                     C = LeituraFormulario();
                     C.ValidaClasse();
                     C.ValidaComplemento();
+                    C.AlterarFichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                    MessageBox.Show("OK: Indentificador alterado com sucesso", "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    string clienteJson = Cliente.SerializedClassUnit(C);
+                    //string clienteJson = Cliente.SerializedClassUnit(C);
 
-                    Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
-                    if (F.status)
-                    {
-                        F.Alterar(C.Id, clienteJson);
+                    //Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                    //if (F.status)
+                    //{
+                    //    F.Alterar(C.Id, clienteJson);
 
-                        if (F.status)
-                        {
-                            MessageBox.Show("OK: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else
-                        {
-                            MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                    //    if (F.status)
+                    //    {
+                    //        MessageBox.Show("OK: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //    }
+                    //    else
+                    //    {
+                    //        MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //    }
 
-                    }
-                    else
-                    {
-                        MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    //}
+                    //else
+                    //{
+                    //    MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //}
 
 
                 }
@@ -253,38 +278,67 @@ namespace CursoWindowsForms
             }
             else
             {
-                Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
-                if (F.status)
+                try
                 {
-                    string clienteJson = F.Buscar(Txt_Codigo.Text);
-                    //MessageBox.Show(clienteJson);
                     Cliente.Unit C = new Cliente.Unit();
-                    C = Cliente.DesSerializedClassUnit(clienteJson);
-                    EscreveFormulario(C);
-
-                    Frm_Questao Db = new Frm_Questao("ExcluirBarra", "Você quer excluir o cliente ?");
-                    Db.ShowDialog();
-                    if (Db.DialogResult == DialogResult.Yes)
+                    C = C.BuscarFichario(Txt_Codigo.Text, "C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                    if (C == null)
                     {
-                        F.Apagar(Txt_Codigo.Text);
-
-                        if (F.status)
+                        MessageBox.Show("Idenficador não encontrado.", "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        EscreveFormulario(C);
+                        Frm_Questao Db = new Frm_Questao("ExcluirBarra", "Você quer excluir o cliente ?");
+                        Db.ShowDialog();
+                        if (Db.DialogResult == DialogResult.Yes)
                         {
-                            MessageBox.Show("OK: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            C.ApagarFichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                            MessageBox.Show("OK: Indentificador apagado com sucesso", "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             LimparFormulario();
-                        }
-                        else
-                        {
-                            MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
 
-                    //MessageBox.Show(clienteJson);
+
                 }
-                else
+                catch (Exception Ex)
                 {
-                    MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Ex.Message, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
+
+                //Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                //if (F.status)
+                //{
+                //    string clienteJson = F.Buscar(Txt_Codigo.Text);
+                //    //MessageBox.Show(clienteJson);
+                //    Cliente.Unit C = new Cliente.Unit();
+                //    C = Cliente.DesSerializedClassUnit(clienteJson);
+                //    EscreveFormulario(C);
+
+                //    Frm_Questao Db = new Frm_Questao("ExcluirBarra", "Você quer excluir o cliente ?");
+                //    Db.ShowDialog();
+                //    if (Db.DialogResult == DialogResult.Yes)
+                //    {
+                //        F.Apagar(Txt_Codigo.Text);
+
+                //        if (F.status)
+                //        {
+                //            MessageBox.Show("OK: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //            LimparFormulario();
+                //        }
+                //        else
+                //        {
+                //            MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //        }
+                //    }
+
+                //    //MessageBox.Show(clienteJson);
+                //}
+                //else
+                //{
+                //    MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //}
             }
         }
 
@@ -464,46 +518,91 @@ namespace CursoWindowsForms
 
         private void Btn_Busca_Click(object sender, EventArgs e)
         {
-            Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
-            if (F.status)
+
+
+            try
             {
+                Cliente.Unit C = new Cliente.Unit();
                 List<string> List = new List<string>();
-                List = F.BuscarTodos();
-                if (F.status)
+                List = C.ListaFichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                if (List == null)
+                {
+                    MessageBox.Show("Base de dados está vazia. Não existe nenhum identificador cadastrado.", "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
                 {
                     List<List<string>> ListaBusca = new List<List<string>>();
-                    for(int i = 0; i <= List.Count - 1; i++)
+                    for (int i = 0; i <= List.Count - 1; i++)
                     {
-                        Cliente.Unit C = Cliente.DesSerializedClassUnit(List[i]);
+                        C = Cliente.DesSerializedClassUnit(List[i]);
                         ListaBusca.Add(new List<string> { C.Id, C.Nome });
                     }
 
                     Frm_Busca FForm = new Frm_Busca(ListaBusca);
                     FForm.ShowDialog();
-                    if(FForm.DialogResult == DialogResult.OK)
+                    if (FForm.DialogResult == DialogResult.OK)
                     {
                         var idSelect = FForm.idSelect;
-                        string clienteJson = F.Buscar(idSelect);
-                        Cliente.Unit C = new Cliente.Unit();
-                        C = Cliente.DesSerializedClassUnit(clienteJson);
-                        EscreveFormulario(C);
+                        C = C.BuscarFichario(idSelect, "C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+                        if (C == null)
+                        {
+                            MessageBox.Show("Identificador não encontrado.", "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            EscreveFormulario(C);
+                        }
+
+
                     }
                 }
-                else
-                {
-                    MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-              
 
             }
-            else
+            catch (Exception Ex)
             {
-                MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Ex.Message, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-           
-           
+            //Fichario F = new Fichario("C:\\Users\\Developer\\Source\\Repos\\windows-forms-com-c-sharp-parte-5-manipulando-dados-cliente\\Curso\\CursoWindowsForms\\Fichario");
+            //if (F.status)
+            //{
+            //    List<string> List = new List<string>();
+            //    List = F.BuscarTodos();
+            //    if (F.status)
+            //    {
+            //        List<List<string>> ListaBusca = new List<List<string>>();
+            //        for (int i = 0; i <= List.Count - 1; i++)
+            //        {
+            //            Cliente.Unit C = Cliente.DesSerializedClassUnit(List[i]);
+            //            ListaBusca.Add(new List<string> { C.Id, C.Nome });
+            //        }
+
+            //        Frm_Busca FForm = new Frm_Busca(ListaBusca);
+            //        FForm.ShowDialog();
+            //        if (FForm.DialogResult == DialogResult.OK)
+            //        {
+            //            var idSelect = FForm.idSelect;
+            //            string clienteJson = F.Buscar(idSelect);
+            //            Cliente.Unit C = new Cliente.Unit();
+            //            C = Cliente.DesSerializedClassUnit(clienteJson);
+            //            EscreveFormulario(C);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    }
+
+
+
+            //}
+            //else
+            //{
+            //    MessageBox.Show("ERR: " + F.mensagem, "ByteBank", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+
+
+
         }
     }
 }
